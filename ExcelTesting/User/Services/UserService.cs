@@ -23,10 +23,7 @@ namespace ExcelTesting
         public async Task<bool> ExcelCopy(IFormFile filePath)
         {
             if (filePath == null)
-            {
-                throw new Exception("Chose a file axper jan");
-                return false;
-            }
+                throw new Exception("Choose a file axper jan");
 
             try { 
                 List<User> users = new List<User>();
