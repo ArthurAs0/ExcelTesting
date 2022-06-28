@@ -13,6 +13,7 @@ namespace ExcelTesting
     {
 
         Task<bool> ExcelCopy(IFormFile filePath);
+        Task<bool> DbFill(string name, string lastName);
 
     }
 }

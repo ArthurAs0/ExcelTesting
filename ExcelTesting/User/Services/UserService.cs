@@ -19,6 +19,30 @@ namespace ExcelTesting
             _repo = repo;
         }
 
+        public async Task<bool> DbFill(string name,string lastName)
+        {
+
+            List<User> listUsers = new List<User>();
+
+            for (int i = 1; i < 100000; i++)
+            {
+                listUsers.Add(new User
+                {
+                    
+                    Name = name,
+                    LastName = lastName+i,
+                });
+
+
+
+            }
+
+            _repo.AddRange(listUsers);
+            await _repo.SaveChangesAsync();
+
+            return true;
+        }
+
 
         public async Task<bool> ExcelCopy(IFormFile filePath)
         {
@@ -50,7 +74,7 @@ namespace ExcelTesting
                     if (reader.EndOfStream)
                     {
                         
-                        for (int i = 1; i < listExcel.Count; i++)
+                        for (int i = 1; i < listExcel.Count; i++) 
                         {
                             var name = listExcel.Select(x => x.Name).ToArray();
                             var lastName = listExcel.Select(x => x.LastName).ToArray();

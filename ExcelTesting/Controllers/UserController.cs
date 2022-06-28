@@ -22,8 +22,15 @@ namespace ExcelTesting
         public Task<bool> ExcelCopy(IFormFile file)
         {
             return _service.ExcelCopy(file); 
-        } 
+        }
 
+
+        [HttpPost]
+        [Route("DbFill")]
+        public async Task<bool> DbFill(string name, string lastName)
+        {
+            return await _service.DbFill(name, lastName);
+        }
 
     }
 }
