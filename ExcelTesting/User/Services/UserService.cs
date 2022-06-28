@@ -23,41 +23,45 @@ namespace ExcelTesting
         public async Task<bool> ExcelCopy(IFormFile filePath)
         {
             if (filePath == null)
-                throw new Exception("Choose a file axper jan");
+                throw new Exception("Choose a file axper jan)");
 
             try { 
+
                 List<User> users = new List<User>();
 
                 using (var reader = new StreamReader(filePath.OpenReadStream()))
                 {
-                    List<string> listA = new List<string>();
-                    List<string> listB = new List<string>();
-                    List<string> listD = new List<string>();
+                    
+                    List<User> listExcel = new List<User>();
 
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
                         var values = line.Split(',');
 
-                        listA.Add(values[0]);
-                        listB.Add(values[1]);
-                        listD.Add(values[2]);
+                        listExcel.Add(new User 
+                        {
+                          Name = values[1],
+                          LastName = values[2],
+                        });                                
+                                                
                     }
+
                     if (reader.EndOfStream)
                     {
                         
-                        for (int i = 1; i < listA.Count; i++)
+                        for (int i = 1; i < listExcel.Count; i++)
                         {
-                            var b = listB[i];
-                            var d = listD[i];
+                            var name = listExcel.Select(x => x.Name).ToArray();
+                            var lastName = listExcel.Select(x => x.LastName).ToArray();
 
-                            var newUser = new User { Name = b, LastName = d };
+                            var newUser = new User { Name = name[i] , LastName = lastName[i]};
 
                             users.Add(newUser);
                         }
 
                         _repo.AddRange(users);
-                        _repo.SaveChanges();
+                       await _repo.SaveChangesAsync();
 
                         return true;
                     }
