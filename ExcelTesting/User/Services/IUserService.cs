@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace ExcelTesting
     {
 
         Task<bool> ExcelCopy(IFormFile filePath);
+        Task<bool> DbFill(string name, string lastName);
+        Task<List<User>> SearchDb([FromQuery] string searchText);
 
     }
 }

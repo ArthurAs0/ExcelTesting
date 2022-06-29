@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ExcelTesting
@@ -22,7 +23,23 @@ namespace ExcelTesting
         public Task<bool> ExcelCopy(IFormFile file)
         {
             return _service.ExcelCopy(file); 
-        } 
+        }
+
+
+        [HttpPost]
+        [Route("DbFill")]
+        public async Task<bool> DbFill(string name, string lastName)
+        {
+            return await _service.DbFill(name, lastName);
+        }
+
+        [HttpPost]
+        [Route("Search")]
+        public async Task<List<User>> SearchDb([FromQuery]string searchText)
+        {
+            return await _service.SearchDb(searchText);
+        }
+
 
 
     }
