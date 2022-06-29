@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,9 +16,24 @@ namespace ExcelTesting
     public class UserService : IUserService
     {
         readonly ContextDb _repo;
+
         public UserService(ContextDb repo) 
         {
             _repo = repo;
+        }
+
+
+        public async Task<List<User>> SearchDb([FromQuery] string searchText)
+        {
+            if (searchText == null)
+                throw new Exception("Text gri axper jan)");
+
+
+            var useres = await _repo.Users.Where(x => x.Name.Contains(searchText.ToLower()) ||
+                                                      x.LastName.Contains(searchText.ToLower()))
+                                                      .ToListAsync();
+
+            return useres;
         }
 
         public async Task<bool> DbFill(string name,string lastName)
@@ -32,8 +49,6 @@ namespace ExcelTesting
                     Name = name,
                     LastName = lastName+i,
                 });
-
-
 
             }
 
