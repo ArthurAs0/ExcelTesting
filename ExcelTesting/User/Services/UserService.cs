@@ -25,9 +25,9 @@ namespace ExcelTesting
 
         public async Task<List<User>> SearchDb([FromQuery] string searchText)
         {
-            //var loadall = _repo.Users.OrderBy(x => x).AsQueryable();
+            //var loadAllUser = _repo.Users.OrderBy(x => x).AsQueryable();
 
-            var loadall = _repo.Users.AsQueryable().OrderByDescending(x => x);
+            var loadAllUser = _repo.Users.AsQueryable().OrderByDescending(x => x);
             
 
             if (searchText == null)
@@ -35,7 +35,7 @@ namespace ExcelTesting
 
             searchText = searchText.ToLower();
 
-            var a = loadall.Where(x => x.Name.Contains(searchText) ||
+            var useres = loadAllUser.Where(x => x.Name.Contains(searchText) ||
                                        x.LastName.Contains(searchText)).AsQueryable();
 
             //var useres = _repo.Users.Where(x => x.Name.Contains(searchText) ||
@@ -43,7 +43,7 @@ namespace ExcelTesting
             //                                    .AsQueryable();
 
 
-            return await a.Take(50).ToListAsync();
+            return await useres.Take(50).ToListAsync();
         }
 
         public async Task<bool> DbFill(string name,string lastName)
