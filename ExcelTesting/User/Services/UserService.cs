@@ -27,23 +27,25 @@ namespace ExcelTesting
         {
             //var loadAllUser = _repo.Users.OrderBy(x => x).AsQueryable();
 
-            var loadAllUser = _repo.Users.AsQueryable().OrderByDescending(x => x);
-            
-
             if (searchText == null)
                 throw new Exception("Mi ban gri axper jan)");
 
             searchText = searchText.ToLower();
 
-            var useres = loadAllUser.Where(x => x.Name.Contains(searchText) ||
-                                       x.LastName.Contains(searchText)).AsQueryable();
+            var loadAllUser = _repo.Users.Where(x => x.Name.Contains(searchText) 
+                                              || x.LastName.Contains(searchText))
+                                                .AsQueryable()
+                                                .AsNoTracking();
+
+            //var useres = loadAllUser.Where(x => x.Name.Contains(searchText) ||
+            //                           x.LastName.Contains(searchText)).AsQueryable();
 
             //var useres = _repo.Users.Where(x => x.Name.Contains(searchText) ||
             //                                  x.LastName.Contains(searchText))
             //                                    .AsQueryable();
 
 
-            return await useres.Take(50).ToListAsync();
+            return await loadAllUser.Take(25).ToListAsync();
         }
 
         public async Task<bool> DbFill(string name,string lastName)
